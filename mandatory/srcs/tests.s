@@ -1,6 +1,6 @@
 ;;
 ;;
-;;	function to run tests
+;;	program to run tests
 ;;
 ;;
 

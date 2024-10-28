@@ -56,6 +56,12 @@ print:
 print_int:
 		push rbp
 		mov rbp, rsp
-		; wip
+		push rax
+		push rcx
+
+		mov rbx, char_arr
+		call println
+		pop rcx
+		pop rax
 		pop rbp
 		ret
