@@ -2,6 +2,9 @@
 ;;	size_t strlen(const char *s);
 ;;
 
+;; TODO -> set errno
+;;		-> add tests 
+
 global ft_strlen
 
 section .text
@@ -9,14 +12,14 @@ section .text
 ft_strlen:
 	push rbp
 	mov rbp, rsp
-	mov rax, rdi
+	lea rdx, [rdi]			;; load memory addr
 .check_null:
-	cmp BYTE [rax], 0
+	cmp BYTE [rdx], 0
 	jz .found_null
-	inc rax
+	inc rdx
 	jmp .check_null
 .found_null:
-	sub rax, rdi
+	sub rdx, rdi
 	pop rbp
 	ret
 

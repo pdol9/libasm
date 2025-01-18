@@ -19,7 +19,12 @@ SRCS		:=	ft_strlen.s \
 				ft_read.s \
 				ft_strdup.s
 TEST_SRCS	:=	auxiliary_func.s \
-				tests.s \
+				test-ft_read.s \
+				test-ft_strcmp.s \
+				test-ft_strcpy.s \
+				test-ft_strdup.s \
+				test-ft_strlen.s \
+				test-ft_write.s \
 				main.s
 
 OBJS		:= $(addprefix $(OBJ_DIR),$(notdir $(SRCS:.s=.o)))
@@ -30,8 +35,9 @@ all: $(OBJ_DIR) $(NAME)
 $(NAME): $(OBJS)
 		ar rcs $@ $^
 
-test: all $(TEST_OBJ)
+test: $(TEST_OBJ) $(NAME)
 		$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc
+		./$(TESTER)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s
 		$(NASM) $(NASMFLAGS) $< -o $@ -I ./inc

@@ -15,8 +15,8 @@ SUCCESS			equ 0
 ERROR			equ -1
 
 ;; Function prototypes
-%define println println
-%define print print
+%define put_string put_string
+%define print_string print_string
 %define print_int print_int
 
 %define ft_strlen ft_strlen
@@ -26,4 +26,9 @@ ERROR			equ -1
 %define ft_read ft_read
 %define ft_strdup ft_strdup
 
-%define run_strlen_batch run_strlen_batch
+%define ft_strlen_tests.s ft_strlen_tests.s
+%define ft_strcmp_tests.s ft_strcmp_tests.s
+%define ft_strcpy_tests.s ft_strcpy_tests.s
+%define ft_write_tests.s  ft_write_tests.s
+%define ft_read_tests.s   ft_read_tests.s
+%define ft_strdup_tests.s ft_strdup_tests.s
