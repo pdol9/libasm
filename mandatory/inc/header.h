@@ -1,9 +1,9 @@
-;; System Call Numbers
-SYS_READ		equ 0
-SYS_WRITE		equ 1
-SYS_OPEN		equ 2
-SYS_CLOSE		equ 3
-SYS_EXIT		equ 60
+;; System Call Values
+SYS_READ		equ 0x0
+SYS_WRITE		equ 0x01
+SYS_OPEN		equ 0x02
+SYS_CLOSE		equ 0x03
+SYS_EXIT		equ 0x3C
 
 ;; File Descriptors
 STDOUT			equ 1
@@ -12,9 +12,11 @@ STDERR			equ 2
 
 ;; Return Codes
 SUCCESS			equ 0
-ERROR			equ -1
+ERROR			equ 1
 
 ;; Function prototypes
+%define error_handler error_handler
+%define error_exit error_exit
 %define put_string put_string
 %define print_string print_string
 %define print_int print_int

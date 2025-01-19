@@ -4,64 +4,87 @@
 
 %include "header.h" 
 
-global println
-global print
+global put_string
+global print_string
 global print_int
-
-section .bss
-		char_arr: resb 11
+global error_exit
+global error_handler
 
 section .text
 
-;;; ----------------------------------------------------- ;;;
-
-; print string (w/ \n)
-println:
-		push rbp
-		mov rbp, rsp
-		mov rax, SYS_WRITE
-		mov rdi, STDOUT
-
-.print_data:
-		mov rsi, rbx	; load rsi w/ valid memory
-		mov rdx, rcx	; give size
-		syscall
-		cmp rsi, 0xa
-		jne .insert_newline
-		pop rbp
-		ret
-
-.insert_newline:
-		mov rbx, 0xa
-		mov rcx, 1
-		jmp .print_data
+error_handler:
+	mov rsp, rbp
+	pop rbp
+	ret
 
 ;;; ----------------------------------------------------- ;;;
 
-; print string (w/o \n)
-print:
+error_exit:
+	mov rdi, ERROR
+	mov rax, SYS_EXIT
+	syscall
+
+;;; ----------------------------------------------------- ;;;
+
+; put_string(char *s, int len)
+put_string:
 		push rbp
 		mov rbp, rsp
-		mov rax, SYS_WRITE
+		mov rdx, rbx	; length
+		mov rsi, r11	; load rsi w/ memory
 		mov rdi, STDOUT
-		mov rsi, rbx		; char *
-		mov rdx, 1			; until '\0' -> acc
+		mov rax, SYS_WRITE
 		syscall
+
+		mov rsp, rbp
 		pop rbp
 		ret
 
 ;;; ----------------------------------------------------- ;;;
 
-; int itoa(int)
+; print_string(char *s)
+print_string:
+		push rbp
+		mov rbp, rsp
+		mov rax, SYS_WRITE
+		mov rdi, STDOUT
+		mov rsi, r11
+		lea rdx, [r11 - 1]			;; offset of memory addr
+
+.find_null:
+		inc rdx
+		cmp BYTE [rdx], 0
+		jnz .find_null
+ 		sub rdx, rsi
+		syscall
+		pop rbp
+		ret
+
+;;; ----------------------------------------------------- ;;;
+
+; int itoa(int)			--> rcx => input
 print_int:
 		push rbp
 		mov rbp, rsp
-		push rax
-		push rcx
+		mov r9, 0
+		sub rsp, 16						; --> array size
+		mov QWORD [rsp], 0				; array[11] = 0;
+		mov rcx, 10
 
-		mov rbx, char_arr
-		call println
-		pop rcx
-		pop rax
+; rax -> provided int
+.divide:
+		xor rdx, rdx
+		inc r9
+		idiv rcx
+		add rdx, 48
+		lea r10, [rsp + r9]			;; p = &array[14]
+		mov [r10], rdx				;; *p = *(rdx)
+		cmp rax, 0
+		jnz .divide
+
+		; add rsp, r9
+		lea r11, [r10]
+		call print_string
+		mov rsp, rbp
 		pop rbp
 		ret

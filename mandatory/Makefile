@@ -7,6 +7,7 @@ LD			:= ld
 LDFLAGS		:= -g
 
 # general variables
+TEST_FILE	:= ./srcs/test.txt
 INC			:= inc/
 SRC_DIR		:= srcs/
 OBJ_DIR		:= build/
@@ -33,29 +34,37 @@ TEST_OBJ	:= $(addprefix $(OBJ_DIR),$(notdir $(TEST_SRCS:.s=.o)))
 all: $(OBJ_DIR) $(NAME)
 
 $(NAME): $(OBJS)
-		ar rcs $@ $^
+	ar rcs $@ $^
 
-test: $(TEST_OBJ) $(NAME)
-		$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc
-		./$(TESTER)
+test: $(OBJ_DIR) $(TEST_OBJ) $(NAME)
+	$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc
+	./$(TESTER)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s
-		$(NASM) $(NASMFLAGS) $< -o $@ -I ./inc
+	$(NASM) $(NASMFLAGS) $< -o $@ -I ./inc
 
 $(OBJ_DIR):
-		mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
 
 run:
-		./$(TESTER)
+	./$(TESTER)
 
 clean:
-		rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
+	rm -f $(TEST_FILE)
 
 fclean: clean
-		rm -f $(NAME) $(TESTER)
+	rm -f $(NAME) $(TESTER)
+
+clear_test:
+	rm -f $(TESTER)
+	rm -f $(TEST_FILE)
+
+debug:
+	strace ./$(TESTER)
 
 re: fclean all
-		@echo "== Project rebuilt. =="
+	@echo "== Project rebuilt. =="
 
 bonus:
-		@echo "WIP"
+	@echo "WIP"
