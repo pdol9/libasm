@@ -37,7 +37,7 @@ $(NAME): $(OBJS)
 	ar rcs $@ $^
 
 test: $(OBJ_DIR) $(TEST_OBJ) $(NAME)
-	$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc
+	$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./$(TESTER)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s

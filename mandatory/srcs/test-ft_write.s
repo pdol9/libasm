@@ -12,7 +12,7 @@ extern error_exit
 extern error_handler
 extern put_string
 extern print_int
-extern print
+extern printf
 
 extern ft_write
 

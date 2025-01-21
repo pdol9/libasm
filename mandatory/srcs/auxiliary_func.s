@@ -49,8 +49,7 @@ print_string:
 		mov rax, SYS_WRITE
 		mov rdi, STDOUT
 		mov rsi, r11
-		lea rdx, [r11 - 1]			;; offset of memory addr
-
+		lea rdx, [r11 - 1]			;; offset the memory addr
 .find_null:
 		inc rdx
 		cmp BYTE [rdx], 0
@@ -70,7 +69,6 @@ print_int:
 		sub rsp, 16						; --> array size
 		mov QWORD [rsp], 0				; array[11] = 0;
 		mov rcx, 10
-
 ; rax -> provided int
 .divide:
 		xor rdx, rdx
@@ -81,7 +79,6 @@ print_int:
 		mov [r10], rdx				;; *p = *(rdx)
 		cmp rax, 0
 		jnz .divide
-
 		; add rsp, r9
 		lea r11, [r10]
 		call print_string
