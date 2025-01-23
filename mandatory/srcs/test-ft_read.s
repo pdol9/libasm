@@ -21,15 +21,28 @@ section .data
 		test_msg_len		equ	$ - test_msg
 		end_msg				db	"END of ---> ft_read <---", 0xa, 0
 		end_msg_len			equ	$ - end_msg
-		err_file_name		db	"100MB.bin", 0
+		err_file_name		db	"10MB.bin", 0
 		file_name			db	"./srcs/main.s", 0
+		fmt					db	"File content: %s", 0xa, 0
+		user_input_prompt	db	"Please provide some content for STDIN & press ENTER:", 0xa, 0
+		fmt_given_input		db	"User's input: %s", 0xa, 0
 		buffer_size			equ 2048
-		fmt					db "File content: %s", 0x0A, 0
 
 section .bss
 		buffer				resb buffer_size
 
 section .text
+
+clear_buffer:
+		push rbp
+		mov rbp, rsp
+		mov rdi, buffer
+		mov rcx, buffer_size
+		xor rax, rax				; set the buffer value
+		rep stosb
+		mov rsp, rbp
+		pop rbp
+		ret
 
 ft_read_tests:
 		push rbp
@@ -38,14 +51,14 @@ ft_read_tests:
 		mov rbx, test_msg_len
 		mov r11, test_msg
 		call put_string
-
-    	; Zero out the buffer
-		mov rdi, buffer
-		mov rcx, buffer_size
-		xor rax, rax      			; set the buffer value
-		rep stosb
+		cmp rax, 0
+		jl error_exit
 
 		; 1. test
+
+		;; Zero out the buffer
+		call clear_buffer
+
 		;; open a file
 		mov rdx, 0644o
 		mov rsi, 0x0
@@ -56,26 +69,49 @@ ft_read_tests:
 		jl error_exit
 
 		;; read from a file
-		mov r9, rax						;;save fd
+		mov r14, rax						;;save fd
 		mov rbx, buffer_size
 		mov r11, buffer
 		mov rcx, rax
 		call ft_read
-		neg rbx
 		cmp rax, 0
-		cmovl rcx, rbx
-
+		jl .close_fd
 		;; print content
 		mov rsi, buffer
 		mov rdi, fmt
 		call printf
 
-		;; close it
-		mov rdi, r9
+		;; close fd
+	.close_fd:
+		mov rdi, r14
 		mov rax, SYS_CLOSE
 		syscall
-		cmp rcx, 0
+		cmp rax, 0
 		jl error_exit
+
+;; ###############################################
+
+		; 2. test
+
+		;; Zero out the buffer
+		call clear_buffer
+
+		;; prompt user for input
+		mov rdi, user_input_prompt
+		call printf
+
+		;; read from STDIN
+		mov rbx, buffer_size
+		mov r11, buffer
+		mov rcx, STDIN
+		call ft_read
+		cmp rax, 0
+		jl error_exit
+
+		;; print content
+		mov rsi, buffer
+		mov rdi, fmt_given_input
+		call printf
 
 ;; --------------------------------------------------------
 
