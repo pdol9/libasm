@@ -1,10 +1,10 @@
 ;;
 ;;
-;;	main function to run tests
+;;	main module to run tests
 ;;
 ;;
 
-%include "header.h" 
+%include "libasm.inc" 
 
 global _start
 
@@ -28,7 +28,7 @@ section .data
 	end_msg		db "___END of testing___", 0xa, 0
 	end_len		equ $ - end_msg
 	msg			db	"-Test-msg-from-puts!", 0
-	fmt			db "Hello, %s! The number is %d.", 0x0A, 0
+	fmt			db "Hello, %s! The number is %d.", 0xa, 0
 	name		db "from printf", 0
 	number		dq 42
 
@@ -41,8 +41,8 @@ section .data
 section .text
 
 _start:
-		mov rbx, start_len
-		mov r11, start_msg
+		mov rdx, start_len
+		mov rsi, start_msg
 		call put_string
 
 		;; test for interoperability w/ C lib	
@@ -63,10 +63,10 @@ _start:
 		; call ft_write_tests
 		
 		;; ft_read
-		call ft_read_tests
+		; call ft_read_tests
 
 		;; ft_strlen
-		; call ft_strlen_tests
+		call ft_strlen_tests
 
 		;; ft_strcpy
 		; call ft_strcpy_tests
@@ -74,14 +74,14 @@ _start:
 		;; ft_strcmp
 		; call ft_strcmp_tests
 
-		;; ...
-		;; ...
+		;; ft_strdup
+		; call ft_strdup_tests
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 		; end msg
-		mov rbx, end_len
-		mov r11, end_msg
+		mov rdx, end_len
+		mov rsi, end_msg
 		call put_string
 
 		;; exit

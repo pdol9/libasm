@@ -12,6 +12,7 @@ INC			:= inc/
 SRC_DIR		:= srcs/
 OBJ_DIR		:= build/
 TESTER		:= tester
+CTESTER		:= c_tester
 NAME		:= libasm.a
 SRCS		:=	ft_strlen.s \
 				ft_strcpy.s \
@@ -36,8 +37,12 @@ all: $(OBJ_DIR) $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $@ $^
 
+ctest:
+	$(CC) $(LDFLAGS) ./srcs/main.c -I ./ $(NAME) -o $(CTESTER)
+	./$(CTESTER)
+
 test: $(OBJ_DIR) $(TEST_OBJ) $(NAME)
-	$(LD) $(LDFLAGS) $(TEST_OBJ) $(NAME) -o $(TESTER) -I ./inc -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	$(LD) $(LDFLAGS) -I ./inc $(TEST_OBJ) $(NAME) -o $(TESTER) -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./$(TESTER)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s

@@ -2,8 +2,6 @@
 ;;  ssize_t write(int fd, const void *buf, size_t count);
 ;;
 
-%include "header.h"
-
 global ft_write
 
 section .text
@@ -11,13 +9,8 @@ section .text
 ft_write:
 	push rbp
 	mov rbp, rsp
-
-	mov rdx, rbx			;; len
-	mov rsi, r11			;; char *buffer 
-	mov rdi, rcx			;; int fd
-	mov rax, SYS_WRITE
+	mov rax, 0x1					;; SYS_WRITE
 	syscall
-
 	mov rsp, rbp
 	pop rbp
 	ret

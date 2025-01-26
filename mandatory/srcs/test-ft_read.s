@@ -4,14 +4,12 @@
 ;;
 ;;
 
-%include "header.h" 
+%include "libasm.inc" 
 
 global ft_read_tests
 
 extern error_exit
-extern error_handler
 extern put_string
-extern print_int
 extern printf
 
 extern ft_read
@@ -26,7 +24,7 @@ section .data
 		fmt					db	"File content: %s", 0xa, 0
 		user_input_prompt	db	"Please provide some content for STDIN & press ENTER:", 0xa, 0
 		fmt_given_input		db	"User's input: %s", 0xa, 0
-		buffer_size			equ 2048
+		buffer_size			equ	2048
 
 section .bss
 		buffer				resb buffer_size
@@ -48,8 +46,8 @@ ft_read_tests:
 		push rbp
 		mov rbp, rsp
 
-		mov rbx, test_msg_len
-		mov r11, test_msg
+		mov rdx, test_msg_len
+		mov rsi, test_msg
 		call put_string
 		cmp rax, 0
 		jl error_exit
@@ -70,9 +68,9 @@ ft_read_tests:
 
 		;; read from a file
 		mov r14, rax						;;save fd
-		mov rbx, buffer_size
-		mov r11, buffer
-		mov rcx, rax
+		mov rdx, buffer_size
+		mov rsi, buffer
+		mov rdi, rax
 		call ft_read
 		cmp rax, 0
 		jl .close_fd
@@ -101,9 +99,9 @@ ft_read_tests:
 		call printf
 
 		;; read from STDIN
-		mov rbx, buffer_size
-		mov r11, buffer
-		mov rcx, STDIN
+		mov rdx, buffer_size
+		mov rsi, buffer
+		mov rdi, STDIN
 		call ft_read
 		cmp rax, 0
 		jl error_exit
@@ -116,8 +114,8 @@ ft_read_tests:
 ;; --------------------------------------------------------
 
 ;; finish
-		mov rbx, end_msg_len
-		mov r11, end_msg
+		mov rdx, end_msg_len
+		mov rsi, end_msg
 		call put_string
 
 		mov rsp, rbp

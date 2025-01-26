@@ -4,7 +4,7 @@
 ;;
 ;;
 
-%include "header.h" 
+%include "libasm.inc" 
 
 global ft_write_tests
 
@@ -26,7 +26,7 @@ section .data
 		test_two			db "TEST TWO", 0xa, 0
 		test_two_len		equ $ - test_two
 		test_file			db "./srcs/test.txt", 0
-		file_string			db "FILE TEST: Writing a string into a file.", 0xa, 0
+		file_string			db "FILE TEST: Writing a string into a file.", 0xa
 		file_string_len		equ $ - file_string
 
 section .text
@@ -35,24 +35,26 @@ ft_write_tests:
 		push rbp
 		mov rbp, rsp
 
-		mov rbx, test_msg_len
-		mov r11, test_msg
+		mov rdx, test_msg_len
+		mov rsi, test_msg
 		call put_string
 		cmp rax, 0
 		jl error_handler
 
+;; --------------------------------------------------------
+
 		; 1.1 test - stdout
-		mov rbx, test_one_len				;; len
-		mov r11, test_one					;; addr
-		mov rcx, 0x1						;; fd 
+		mov rdx, test_one_len				;; len
+		mov rsi, test_one					;; addr
+		mov rdi, STDOUT						;; fd 
 		call ft_write
 		cmp rax, 0
 		jl error_handler
 
 		; 1.2 test - stdout
-		mov rbx, test_two_len
-		mov r11, test_two
-		mov rcx, STDOUT
+		mov rdx, test_two_len
+		mov rsi, test_two
+		mov rdi, STDOUT
 		call ft_write
 		cmp rax, 0
 		jl error_handler
@@ -70,26 +72,21 @@ ft_write_tests:
 		jl error_exit
 
 		;; write to a file
-		mov r9, rax						;;save fd
-		mov rbx, file_string_len
-		mov r11, file_string
-		mov rcx, rax
+		mov r12, rax						;;save fd
+		mov rdx, file_string_len
+		mov rsi, file_string
+		mov rdi, rax
 		call ft_write
-		neg rbx
-		cmp rax, 0
-		cmovl rcx, rbx
 		;; close file
-		mov rdi, r9
+		mov rdi, r12
 		mov rax, SYS_CLOSE
 		syscall
-		cmp rcx, 0
+		cmp rax, 0
 		jl error_exit
 
-;; --------------------------------------------------------
-
 ;; finish
-		mov rbx, end_msg_len
-		mov r11, end_msg
+		mov rdx, end_msg_len
+		mov rsi, end_msg
 		call put_string
 
 		mov rsp, rbp
