@@ -26,8 +26,6 @@ error_exit:
 
 ;;; ----------------------------------------------------- ;;;
 
-;;; ----------------------------------------------------- ;;;
-
 ; put_string(char *s, int len)
 put_string:
 	push rbp
@@ -46,10 +44,9 @@ put_string:
 print_string:
 	push rbp
 	mov rbp, rsp
-	mov rax, 0x1
+	lea rdx, [rsi - 1]			;; offset the memory addr
 	mov rdi, STDOUT
-	mov rsi, r11
-	lea rdx, [r11 - 1]			;; offset the memory addr
+	mov rax, 0x1
 .find_null:
 	inc rdx
 	cmp BYTE [rdx], 0
@@ -61,27 +58,33 @@ print_string:
 
 ;;; ----------------------------------------------------- ;;;
 
-; int itoa(int)
-; wip
+; char* itoa(int)
 print_int:
 	push rbp
 	mov rbp, rsp
-; 	mov r9, 0
-; 	sub rsp, 16						; --> array size
-; 	mov BYTE [rsp], 0				; array[11] = 0;
-; 	mov rcx, 10
-; .divide:
-; 	xor rdx, rdx
-; 	inc r9
-; 	idiv rcx
-; 	add rdx, 48
-; 	lea r10, [rsp + r9]
-; 	mov [r10], rdx
-; 	cmp rax, 0
-; 	jnz .divide
-; 	; add rsp, r9
-; 	lea r11, [r10]
-; 	call print_string
+	sub rsp, 16
+	lea r8, [rsp]
+	mov rdi, rax
+	xor rax, rax
+	mov rcx, 2
+	;; zero-out 16-bit array
+.arr_zeroed:
+	mov QWORD [r8], rax
+	add r8, 8
+	loop .arr_zeroed
+	mov rax, rdi
+	mov rcx, 10
+.divide:
+	xor rdx, rdx
+	dec r8
+	idiv rcx
+	add rdx, 48
+	mov BYTE [r8], dl
+	cmp rax, 0
+	jnz .divide
+
+	lea rsi, [r8]
+	call print_string
 	mov rsp, rbp
 	pop rbp
 	ret

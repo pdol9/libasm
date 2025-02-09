@@ -23,14 +23,15 @@ extern ft_read_tests
 extern ft_strdup_tests
 
 section .data
-	start_msg	db "___START of testing___", 0xa, 0
+	start_msg	db	"___START of testing___", 0xa, 0
 	start_len	equ $ - start_msg
-	end_msg		db "___END of testing___", 0xa, 0
+	end_msg		db	"___END of testing___", 0
 	end_len		equ $ - end_msg
 	msg			db	"-Test-msg-from-puts!", 0
-	fmt			db "Hello, %s! The number is %d.", 0xa, 0
-	name		db "from printf", 0
-	number		dq 42
+	fmt			db	"Hello, %s! The number is %d.", 0xa, 0
+	name		db	"from printf", 0
+	number		dq	0x424242
+	newline		db	0xa
 
 ; 	arr			dd	0
 ; 		times 99 dd 58
@@ -45,7 +46,6 @@ _start:
 		mov rsi, start_msg
 		call put_string
 
-		;; test for interoperability w/ C lib	
 		mov rdi, msg
 		call puts
 		mov rdx, number
@@ -53,8 +53,17 @@ _start:
 		mov rdi, fmt
 		call printf
 
-		; call print_string
-		; call print_int
+		mov rax, 123
+		call print_int
+		mov rdx, 1
+		mov rsi, newline
+		call put_string
+		mov rax, number
+		call print_int
+		mov rdx, 1
+		mov rsi, newline
+		call put_string
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 		;; test functions
@@ -66,7 +75,7 @@ _start:
 		; call ft_read_tests
 
 		;; ft_strlen
-		call ft_strlen_tests
+		; call ft_strlen_tests
 
 		;; ft_strcpy
 		; call ft_strcpy_tests
