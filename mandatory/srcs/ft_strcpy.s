@@ -14,10 +14,7 @@ ft_strcpy:
 .till_zero:
 	cmp BYTE [rsi], 0
 	jz .finish
-	mov dl, BYTE [rsi]
-	mov BYTE [rdi], dl
-	inc rdi
-	inc rsi
+	movsb
 	jmp .till_zero
 .finish:
 	mov BYTE [rdi], 0
