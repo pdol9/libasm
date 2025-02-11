@@ -6,40 +6,40 @@
 
 %include "libasm.inc" 
 
-global _start
+GLOBAL _start
 
-extern put_string
-extern print_string
-extern print_int
+EXTERN put_string
+EXTERN print_string
+EXTERN print_int
 
-extern printf
-extern puts
+EXTERN printf
+EXTERN puts
 
-extern ft_strlen_tests
-extern ft_strcpy_tests
-extern ft_strcmp_tests
-extern ft_write_tests
-extern ft_read_tests
-extern ft_strdup_tests
+EXTERN ft_strlen_tests
+EXTERN ft_strcpy_tests
+EXTERN ft_strcmp_tests
+EXTERN ft_write_tests
+EXTERN ft_read_tests
+EXTERN ft_strdup_tests
 
-section .data
-	start_msg	db	"___START of testing___", 0xa, 0
-	start_len	equ $ - start_msg
-	end_msg		db	"___END of testing___", 0
-	end_len		equ $ - end_msg
-	msg			db	"-Test-msg-from-puts!", 0
-	fmt			db	"Hello, %s! The number is %d.", 0xa, 0
-	name		db	"from printf", 0
-	number		dq	0x424242
-	newline		db	0xa
+SECTION .data
+start_msg	db	"___START of testing___", 0xa, 0
+start_len	equ $ - start_msg
+end_msg		db	"___END of testing___", 0
+end_len		equ $ - end_msg
+msg			db	"-Test-msg-from-puts!", 0
+fmt			db	"Hello, %s! The number is %d.", 0xa, 0
+name		db	"from printf", 0
+number		dq	0x424242
+newline		db	0xa
 
 ; 	arr			dd	0
 ; 		times 99 dd 58
 
-; section .bss
+; SECTION .bss
 ; 	arr_2		resd 100
 
-section .text
+SECTION .text
 
 _start:
 		mov rdx, start_len
@@ -78,7 +78,7 @@ _start:
 		; call ft_strlen_tests
 
 		;; ft_strcpy
-		; call ft_strcpy_tests
+		call ft_strcpy_tests
 
 		;; ft_strcmp
 		; call ft_strcmp_tests
