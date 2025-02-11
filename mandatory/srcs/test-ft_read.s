@@ -1,46 +1,36 @@
 ;;
 ;;
-;;	program to run tests
+;;	module to run ft_read tests
 ;;
 ;;
 
 %include "libasm.inc" 
 
-global ft_read_tests
+GLOBAL ft_read_tests
 
-extern error_exit
-extern put_string
-extern printf
+EXTERN clear_buffer
+EXTERN error_exit
+EXTERN put_string
+EXTERN printf
 
-extern ft_read
+EXTERN ft_read
 
-section .data
-		test_msg			db	"Test message from *** ft_read ***", 0xa, 0
-		test_msg_len		equ	$ - test_msg
-		end_msg				db	"END of ---> ft_read <---", 0xa, 0
-		end_msg_len			equ	$ - end_msg
-		err_file_name		db	"10MB.bin", 0
-		file_name			db	"./srcs/main.s", 0
-		fmt					db	"File content: %s", 0xa, 0
-		user_input_prompt	db	"Please provide some content for STDIN & press ENTER:", 0xa, 0
-		fmt_given_input		db	"User's input: %s", 0xa, 0
-		buffer_size			equ	2048
+SECTION .data
+test_msg			db	"Test message from *** ft_read ***", 0xa, 0
+test_msg_len		equ	$ - test_msg
+end_msg				db	"END of ---> ft_read <---", 0xa, 0
+end_msg_len			equ	$ - end_msg
+err_file_name		db	"10MB.bin", 0
+file_name			db	"./srcs/main.s", 0
+fmt					db	"File content: %s", 0xa, 0
+user_input_prompt	db	"Please provide some content for STDIN & press ENTER:", 0xa, 0
+fmt_given_input		db	"User's input: %s", 0xa, 0
+buffer_size			equ	2048
 
-section .bss
-		buffer				resb buffer_size
+SECTION .bss
+buffer				resb buffer_size
 
-section .text
-
-clear_buffer:
-		push rbp
-		mov rbp, rsp
-		mov rdi, buffer
-		mov rcx, buffer_size
-		xor rax, rax				; set the buffer value
-		rep stosb
-		mov rsp, rbp
-		pop rbp
-		ret
+SECTION .text
 
 ft_read_tests:
 		push rbp
@@ -55,6 +45,8 @@ ft_read_tests:
 		; 1. test
 
 		;; Zero out the buffer
+		mov rcx, buffer_size
+		mov rdi, buffer
 		call clear_buffer
 
 		;; open a file
@@ -92,6 +84,8 @@ ft_read_tests:
 		; 2. test
 
 		;; Zero out the buffer
+		mov rcx, buffer_size
+		mov rdi, buffer
 		call clear_buffer
 
 		;; prompt user for input

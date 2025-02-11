@@ -18,10 +18,9 @@ ft_strcpy:
 	mov BYTE [rdi], dl
 	inc rdi
 	inc rsi
-	cmp BYTE [rsi], 0
-	jnz .till_zero
-	mov BYTE [rdi], 0
+	jmp .till_zero
 .finish:
+	mov BYTE [rdi], 0
 	mov rsp, rbp
 	pop rbp
 	ret

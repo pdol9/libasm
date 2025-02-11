@@ -14,6 +14,7 @@ STDERR			equ 2
 %define put_string put_string
 %define print_string print_string
 %define print_int print_int
+%define clear_buffer clear_buffer
 
 %define ft_strlen ft_strlen
 %define ft_strcpy ft_strcpy

@@ -4,13 +4,25 @@
 
 %include "libasm.inc" 
 
-global put_string
-global print_string
-global print_int
-global error_exit
-global error_handler
+GLOBAL put_string
+GLOBAL print_string
+GLOBAL print_int
+GLOBAL error_exit
+GLOBAL error_handler
+GLOBAL clear_buffer
 
-section .text
+SECTION .text
+
+clear_buffer:
+		push rbp
+		mov rbp, rsp
+		xor rax, rax				; set the buffer value
+		rep stosb
+		mov rsp, rbp
+		pop rbp
+		ret
+
+;;; ----------------------------------------------------- ;;;
 
 error_handler:
 	mov rsp, rbp
