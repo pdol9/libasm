@@ -107,9 +107,10 @@ int main(void) {
 
 		// ft_strcmp
 	fprintf(stdout, "\n---> Start with ft_strcmp\n");
-	char *test1 = "one";
-	char *test2 = "one";
-	char *test3 = "otest-string";
+	char *test1 = "ana";
+	char *test2 = "ana";
+	char *test3 = "anay";
+	char *test4 = "otest-string";
 
 	// 1. test
 	int diff = strcmp(test1, test2);

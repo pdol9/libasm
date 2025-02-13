@@ -37,7 +37,7 @@ all: $(OBJ_DIR) $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $@ $^
 
-ctest:
+ctest: $(NAME)
 	$(CC) $(LDFLAGS) ./srcs/main.c -I ./ $(NAME) -o $(CTESTER)
 	./$(CTESTER)
 
