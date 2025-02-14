@@ -109,35 +109,42 @@ int main(void) {
 
 		// ft_strdup
 
-//	fprintf(stdout, "\n-----> Start with ft_strdup <-----\n");
-//	char test1[8] = "abcdefg";
-//	char *test2 = "";
-//	char *dup, *ft_dup;
-//
-//	// 1. test
-//	dup = strdup(test1);
-//	ft_dup = ft_strdup(test1);
-//	printf("Input: '%s'\n", test1);
-//	printf("strdup: '%s'\n", dup);
-//	printf("ft_strdup: '%s'\n", ft_dup);
-//
-//	// 2. test
-//	char *dup_test = strdup(dup);
-//	char *ft_dup_test = strdup(ft_dup);
-//	printf("Input of pointer dup: '%s'\n", dup);
-//	printf("strdup: '%s'\n", dup_test);
-//	printf("ft_strdup: '%s'\n", ft_dup_test);
-//	free(dup);
-//	free(ft_dup);
-//	free(dup_test);
-//	free(ft_dup_test);
-//
-//	// 3. test
-//	dup = strdup(test1);
-//	ft_dup = ft_strdup(test2);
-//	printf("Input: '%s'\n", test2);
-//	printf("strdup: '%s'\n", dup);
-//	printf("ft_strdup: '%s'\n", ft_dup);
+	fprintf(stdout, "\n-----> Start with ft_strdup <-----\n");
+	char *test1 = "abcdefgh";
+	char *test2 = "";
+	char *dup, *ft_dup;
+
+	// 1. test
+	dup = strdup(test1);
+	// TODO
+	ft_dup = strdup(test1);
+	printf("\n # 1. test:\nInput: '%s'\n", test1);
+	printf("strdup: '%s'\n", dup);
+	printf("ft_strdup: '%s'\n", ft_dup);
+
+	// 2. test
+	char *dup_test = strdup(dup);
+	// TODO
+	char *ft_dup_test = strdup(ft_dup);
+	printf("Use dup() on already dupped string: '%s'\n", dup);
+	printf("strdup: '%s'\n", dup_test);
+	printf("ft_strdup: '%s'\n", ft_dup_test);
+	free(dup);
+	free(ft_dup);
+	free(dup_test);
+	free(ft_dup_test);
+
+	// 3. test
+	dup = strdup(test2);
+	// TODO
+	ft_dup = strdup(test2);
+	printf("Input: '%s'\n", test2);
+	printf("strdup: '%s'\n", dup);
+	printf("ft_strdup: '%s'\n", ft_dup);
+	if (dup)
+		free(dup);
+	if (ft_dup)
+		free(ft_dup);
 
 //	--------  --------  --------  --------  --------  --------  //
 
