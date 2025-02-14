@@ -22,6 +22,7 @@ ft_strcmp:
 	inc rsi
 	jmp .eq
 .finish
+	movsx rax, al
 	mov rsp, rbp
 	pop rbp
 	ret
