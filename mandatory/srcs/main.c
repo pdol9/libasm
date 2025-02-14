@@ -1,22 +1,35 @@
 #include "libasm.h"
+void	run_strcmp_tests(char *s1, char *s2, int count);
+void	run_strlen_tests(char *s1, int count);
 
 int main(void) {
 
 		// ft_write
-	fprintf(stdout, "---> Start with ft_write\n");
+	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
 	char *str = "hello\n";
-	ft_write(1, str, 6);
-	char *str1 = "\n";
-	ft_write(1, str1, 1);
+	ft_write(1, str, strlen(str));
+	char *str1 = "'\n'";
+	ft_write(1, str1, strlen(str1));
 	char *str2 = "";
 	ft_write(1, str2, strlen(str2));
+	printf("\n # 2. test: Writing to a test file:\n");
+	int fd = open("./test-file-ft_write.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (fd < 0) {
+		fprintf(stderr, "Failed to open a test file.\n");
+	}
+	else {
+		char *test_input = "This is a test string.\n";
+		write(fd, test_input, strlen(test_input));
+		close(fd);
+	}
+	printf("end of --ft_write--\n");
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_read
-	fprintf(stdout, "---> Start with ft_read\nReading from the test file:\n");
+	fprintf(stdout, "\n-----> Start with ft_read <-----\n\n	# 1. test: Reading from the test file:\n\n");
 	char buf[4096];
-	int fd = open("./srcs/main.c", O_RDONLY);
+	fd = open("./srcs/main.c", O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
 	}
@@ -26,127 +39,77 @@ int main(void) {
 		}
 		close(fd);
 	}
-	printf("end of --ft_read--\n");
+	printf("\nend of --ft_read--\n");
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strlen
-	fprintf(stdout, "\n---> Start with ft_strlen\n");
-	char *t1 = "test test test";
-	char *t2 = "1";
-	char *t3 = "";
+	fprintf(stdout, "\n-----> Start with ft_strlen <-----\n");
 
-	// 1. test
-	int len = strlen(t1);
-	int ft_len = ft_strlen(t1);
-	printf("Input: '%s'\n", t1);
-	if (len == ft_len)
-		printf("1. test --> OK\n");
-	else
-		printf(" *** KO *** : 1. test FAILED\n");
-
-	// 2. test
-	len = strlen(t2);
-	ft_len = ft_strlen(t2);
-	printf("Input: '%s'\n", t2);
-	if (len == ft_len)
-		printf("2. test --> OK\n");
-	else
-		printf(" *** KO *** : 2. test FAILED\n");
-
-	// 3. test
-	len = strlen(t3);
-	ft_len = ft_strlen(t3);
-	printf("Input: '%s'\n", t3);
-	if (len == ft_len)
-		printf("3. test --> OK\n");
-	else
-		printf(" *** KO *** : 3. test FAILED\n");
+	char *test_str[] = {
+		"test test test", "9", ""
+	};
+	for (int i = 0; i < 3; ++i) {
+		run_strlen_tests(test_str[i], i);
+	}
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strcpy
-	fprintf(stdout, "\n---> Start with ft_strcpy\n");
+	fprintf(stdout, "\n-----> Start with ft_strcpy <-----\n");
 	char src_arr[]="aloha";
 	char dst_arr[11] = {0};
 	char ft_src_arr[]="aloha";
 	char ft_dst_arr[11] = {0};
-	char arr_c[5] = "TEST";
-	char arr_d[5] = {0};
+	char arr_test[5] = "TEST";
+	char arr_zero[5] = {0};
 
 	// 1. test
-	printf("Input: '%s'\n", src_arr);
 	char *a = strcpy(dst_arr, src_arr);
 	char *b = ft_strcpy(ft_dst_arr, src_arr);
-	printf("strcpy: %s\n",a);
-	printf("ft_strcpy: %s\n",b);
+	printf("\n # 1. test:\nInput: '%s'\n", src_arr);
+	printf("strcpy: %s vs. ft_strcpy: %s\n", a, b);
 
 	// 2. test
-	printf("Expected output: 'alohaaloha'\n");
 	char *c = strcpy(dst_arr + 5, src_arr);
 	char *d = ft_strcpy(ft_dst_arr + 5, src_arr);
-	printf("strcpy: %s\n",(c - 5));
-	printf("ft_strcpy: %s\n",(d - 5));
+	printf("\n # 2. test:\nConcatenate two strings.\nExpected output: 'alohaaloha'\nstrcpy: %s vs. ft_strcpy: %s\n", c - 5, d - 5);
 
 	// 3. test
-	printf("Overwrite src array:\n");
+	printf("\n # 3. test: Overwrite src array with 'TEST':\n");
 	char *tmp1 = strdup(src_arr);
 	char *tmp2 = strdup(ft_src_arr);
-	char *e = strcpy(src_arr, arr_c);
-	char *f = ft_strcpy(ft_src_arr, arr_c);
-	printf("strcpy: overwrite '%s' -> '%s'\n", tmp1, e);
-	printf("ft_strcpy: overwrite '%s' -> '%s'\n", tmp2, f);
-	char *g = strcpy(arr_c, arr_d);
-	char *h = ft_strcpy(arr_c, arr_d);
-	printf("strcpy: overwrite '%s' -> '%s'\n", dst_arr, g + 1);
-	printf("ft_strcpy: overwrite '%s' -> '%s'\n", ft_dst_arr, h + 1);
+	char *e = strcpy(src_arr, arr_test);
+	char *f = ft_strcpy(ft_src_arr, arr_test);
+	printf("strcpy: '%s' -> '%s'\nft_strcpy: '%s' -> '%s'\n", \
+		tmp1, e, tmp2, f);
 	free(tmp1);
 	free(tmp2);
+
+	// 4. test
+	printf("\n # 4. test: (try to) overwrite 'TEST' array with 0:\n");
+	char *g = strcpy(arr_test, arr_zero);
+	char *h = ft_strcpy(arr_test, arr_zero);
+	printf("strcpy: '%s' -> '%s', i.e.: '%s'\nft_strcpy: '%s' -> '%s', i.e.: '%s'\n", \
+		dst_arr, g, g + 1, ft_dst_arr, h, h + 1);
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strcmp
-	fprintf(stdout, "\n---> Start with ft_strcmp\n");
-	char *test1 = "ana";
-	char *test2 = "ana";
-	char *test3 = "anay";
-	char *test4 = "otest-string";
+	fprintf(stdout, "\n-----> Start with ft_strcmp tests <-----\n");
 
-	// 1. test
-	int diff = strcmp(test1, test2);
-	int ft_diff = ft_strcmp(test1, test2);
-	printf("comparison between '%s' and '%s'.\n", test1, test2);
-	if (diff == ft_diff)
-		printf("%s vs %s --> OK\n", test1, test2);
-	else
-		printf(" *** KO *** : %s vs %s; diff: %d vs ft_diff: %d\n", test1, test2, diff,ft_diff);
-
-	// 2. test
-	int repeat_once = -1;
-repeat:
-	diff = strcmp(test1, test3);
-	ft_diff = ft_strcmp(test1, test3);
-	printf("comparison between '%s' and '%s'.\n", test1, test3);
-	if (diff == ft_diff)
-		printf("'%s' vs '%s' --> OK\n", test1, test3);
-	else
-		printf(" *** KO *** : '%s' vs '%s'; diff: %d vs ft_diff: %d\n", test1, test3, diff,ft_diff);
-
-	// 3. test
-	// repeat the previous test but with swapped strings' input param
-	if (repeat_once == -1) {
-		repeat_once++;
-		char *tmp = test1;
-		test1 = test3;
-		test3 = tmp;
-		goto repeat;
+	char *test_strings[] = {
+		"", "abcdef", "abcdef", "abcdefyzABCD"
+	};
+	for (int i = 0; i < 3; ++i) {
+		run_strcmp_tests(test_strings[i], test_strings[i + 1], i);
 	}
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strdup
 
-//	fprintf(stdout, "\n---> Start with ft_strdup\n");
+//	fprintf(stdout, "\n-----> Start with ft_strdup <-----\n");
 //	char test1[8] = "abcdefg";
 //	char *test2 = "";
 //	char *dup, *ft_dup;
@@ -179,4 +142,39 @@ repeat:
 //	--------  --------  --------  --------  --------  --------  //
 
 	return 0;
+}
+
+// ft_strlen
+void	run_strlen_tests(char *s1, int count) {
+
+	int len = strlen(s1);
+	int ft_len = ft_strlen(s1);
+	printf("\n # %d. test:\nInput: '%s'\n", count + 1, s1);
+	if (len == ft_len)
+		printf("strlen: %d vs. ft_strlen: %d --> OK\n", len, ft_len);
+	else
+		printf("  *** KO ***  : strlen: %d vs. ft_strlen: %d\n\n", len, ft_len);
+
+}
+
+// ft_strcmp
+void	run_strcmp_tests(char *s1, char *s2, int counter) {
+
+	printf("\n # %d.test:\nComparison between '%s' and '%s'.\n", counter + 1, s1, s2);
+do_swap:
+	int diff = strcmp(s1, s2);
+	int ft_diff = ft_strcmp(s1, s2);
+	if (diff == ft_diff)
+		printf("strcmp: %d vs. ft_strcmp: %d --> OK\n", diff, ft_diff);
+	else
+		printf("  *** KO ***  : strcmp: %d vs. ft_strcmp: %d\n\n", diff, ft_diff);
+	
+	if (counter < 3) {
+		counter = 42;				// break out of goto
+		char *tmp = s1;
+		s1 = s2;
+		s2 = tmp;
+		printf("  ... swaping input strings for comparison: '%s' and '%s'.\n", s1, s2);
+		goto do_swap;
+	}
 }
