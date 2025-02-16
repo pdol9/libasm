@@ -4,6 +4,7 @@ void	run_strlen_tests(char *s1, int count);
 
 int main(void) {
 
+	goto end;
 		// ft_write
 	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
 	char *str = "hello\n";
@@ -108,37 +109,51 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strdup
-
+end:
 	fprintf(stdout, "\n-----> Start with ft_strdup <-----\n");
 	char *test1 = "abcdefgh";
 	char *test2 = "";
 	char *dup, *ft_dup;
+	char *base = "abc";
+	char *src_ptr;
+	char *src_src_ptr;
+	char *src_src_src_ptr;
+	src_ptr = strdup(base);
+	src_src_ptr = strdup(src_ptr);
+	src_src_src_ptr = strdup(src_src_ptr);
+	printf("mem addr: %p\n",base);
+	printf("mem addr: %p\n",src_ptr);
+	printf("mem addr: %p\n",src_src_ptr);
+	printf("mem addr: %p\n",src_src_src_ptr);
 
 	// 1. test
 	dup = strdup(test1);
-	// TODO
-	ft_dup = strdup(test1);
+	ft_dup = ft_strdup(test1);
 	printf("\n # 1. test:\nInput: '%s'\n", test1);
 	printf("strdup: '%s'\n", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
+	printf("Memory addr: %p - %s\n", test1, "test1 string");
+	printf("Memory addr: %p - %s\n", dup, "dup string");
+	printf("Memory addr: %p - %s\n", ft_dup, "ft_dup string");
+	printf("str len of dup: %d\n", strlen(dup));
+	printf("str len of ft_dup: %d\n", strlen(ft_dup));
 
 	// 2. test
 	char *dup_test = strdup(dup);
-	// TODO
-	char *ft_dup_test = strdup(ft_dup);
-	printf("Use dup() on already dupped string: '%s'\n", dup);
+	char *ft_dup_test = ft_strdup(ft_dup);
+	printf("\n # 2. test: Use dup() on already dupped string: '%s'\n", dup);
 	printf("strdup: '%s'\n", dup_test);
 	printf("ft_strdup: '%s'\n", ft_dup_test);
 	free(dup);
-	free(ft_dup);
-	free(dup_test);
-	free(ft_dup_test);
+	//	TODO
+//	free(ft_dup);
+//	free(dup_test);
+//	free(ft_dup_test);
 
 	// 3. test
 	dup = strdup(test2);
-	// TODO
-	ft_dup = strdup(test2);
-	printf("Input: '%s'\n", test2);
+	ft_dup = ft_strdup(test2);
+	printf("\n # 3.test: Input: '%s'\n", test2);
 	printf("strdup: '%s'\n", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
 	if (dup)
