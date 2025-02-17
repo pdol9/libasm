@@ -9,3 +9,4 @@ resources*
 *.txt
 *.c
 *.out
+vgcore*

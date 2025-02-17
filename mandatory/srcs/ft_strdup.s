@@ -10,9 +10,9 @@ SECTION .text
 
 ft_strdup:
 	push rbp
+	mov rbp, rsp
 	push rbx
 	push r12
-	mov rbp, rsp
 	xor rcx, rcx
 	lea rbx, [rdi]
 .get_len:
@@ -22,24 +22,26 @@ ft_strdup:
 	inc rcx
 	jmp .get_len
 .alloc:
+	inc rcx
 	mov r12, rcx
 	mov rdi, rcx
 	call malloc
 	mov rcx, r12
-	cmp rax, 0
+	test rax, rax
 	jz .finish
 .copy:
-	mov BYTE r9b, BYTE [rbx]
-	mov BYTE [rdi], r9b
+	mov r9b, BYTE [rbx]
+	mov BYTE [rax], r9b
 	inc rbx
-	inc rdi
+	inc rax
 	dec rcx
 	cmp rcx, 0
 	jg .copy
 .finish:
-	mov BYTE [rdi], 0
-	mov rsp, rbp
+	mov BYTE [rax - 1], 0
+	sub rax, r12
 	pop r12
 	pop rbx
+	mov rsp, rbp
 	pop rbp
 	ret

@@ -4,7 +4,6 @@ void	run_strlen_tests(char *s1, int count);
 
 int main(void) {
 
-	goto end;
 		// ft_write
 	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
 	char *str = "hello\n";
@@ -109,62 +108,61 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strdup
-end:
-	fprintf(stdout, "\n-----> Start with ft_strdup <-----\n");
-	char *test1 = "abcdefgh";
+	fprintf(stdout, "\n-----> Start with ft_strdup <-----\nBehaviour of official function:\n");
+	char *test1 = "AbcdefgH";
 	char *test2 = "";
 	char *dup, *ft_dup;
 	char *base = "abc";
 	char *src_ptr;
-	char *src_src_ptr;
-	char *src_src_src_ptr;
+	char *src_ptr_ptr;
+	char *src_ptr_ptr_ptr;
 	src_ptr = strdup(base);
-	src_src_ptr = strdup(src_ptr);
-	src_src_src_ptr = strdup(src_src_ptr);
-	printf("mem addr: %p\n",base);
-	printf("mem addr: %p\n",src_ptr);
-	printf("mem addr: %p\n",src_src_ptr);
-	printf("mem addr: %p\n",src_src_src_ptr);
+	src_ptr_ptr = strdup(src_ptr);
+	src_ptr_ptr_ptr = strdup(src_ptr_ptr);
+	printf("mem addr: %p -> base\n",base);
+	printf("mem addr: %p -> base ptr\n",src_ptr);
+	printf("mem addr: %p -> ptr of base ptr\n",src_ptr_ptr);
+	printf("mem addr: %p -> ptr of ptr of base ptr\n",src_ptr_ptr_ptr);
+	free(src_ptr);free(src_ptr_ptr);free(src_ptr_ptr_ptr);
 
 	// 1. test
 	dup = strdup(test1);
 	ft_dup = ft_strdup(test1);
-	printf("\n # 1. test:\nInput: '%s'\n", test1);
-	printf("strdup: '%s'\n", dup);
+	printf("\n # 1. test:\nInput: %4s'%s'\n", " ", test1);
+	printf("strdup: %3s'%s'\n", " ", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
-	printf("Memory addr: %p - %s\n", test1, "test1 string");
-	printf("Memory addr: %p - %s\n", dup, "dup string");
-	printf("Memory addr: %p - %s\n", ft_dup, "ft_dup string");
-	printf("str len of dup: %d\n", strlen(dup));
-	printf("str len of ft_dup: %d\n", strlen(ft_dup));
+	printf("Memory addr: %p -> %s\n", test1, "test1 string");
+	printf("Memory addr: %p -> %s\n", dup, "dup string");
+	printf("Memory addr: %p -> %s\n", ft_dup, "ft_dup string");
+	printf("strlen of dup: %d\n", strlen(dup));
+	printf("strlen of ft_dup: %d\n", strlen(ft_dup));
 
 	// 2. test
 	char *dup_test = strdup(dup);
 	char *ft_dup_test = ft_strdup(ft_dup);
 	printf("\n # 2. test: Use dup() on already dupped string: '%s'\n", dup);
-	printf("strdup: '%s'\n", dup_test);
+	printf("strdup: %3s'%s'\n", " ", dup_test);
 	printf("ft_strdup: '%s'\n", ft_dup_test);
 	free(dup);
-	//	TODO
-//	free(ft_dup);
-//	free(dup_test);
-//	free(ft_dup_test);
+	free(ft_dup);
+	free(dup_test);
+	free(ft_dup_test);
 
 	// 3. test
 	dup = strdup(test2);
 	ft_dup = ft_strdup(test2);
 	printf("\n # 3.test: Input: '%s'\n", test2);
-	printf("strdup: '%s'\n", dup);
+	printf("strdup: %3s'%s'\n", " ", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
-	if (dup)
-		free(dup);
-	if (ft_dup)
-		free(ft_dup);
+	free(dup);
+	free(ft_dup);
 
 //	--------  --------  --------  --------  --------  --------  //
 
 	return 0;
 }
+
+/// auxiliary functions
 
 // ft_strlen
 void	run_strlen_tests(char *s1, int count) {
@@ -176,7 +174,6 @@ void	run_strlen_tests(char *s1, int count) {
 		printf("strlen: %d vs. ft_strlen: %d --> OK\n", len, ft_len);
 	else
 		printf("  *** KO ***  : strlen: %d vs. ft_strlen: %d\n\n", len, ft_len);
-
 }
 
 // ft_strcmp

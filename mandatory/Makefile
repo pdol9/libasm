@@ -65,6 +65,10 @@ clear_test:
 	rm -f $(TESTER)
 	rm -f $(TEST_FILE)
 
+val: ctest
+	@printf "\n$$ "
+	valgrind --leak-check=full --show-leak-kinds=all ./$(CTESTER)
+
 debug:
 	strace ./$(TESTER)
 
