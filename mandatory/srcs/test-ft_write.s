@@ -6,30 +6,30 @@
 
 %include "libasm.inc" 
 
-global ft_write_tests
+GLOBAL ft_write_tests
 
-extern error_exit
-extern error_handler
-extern put_string
-extern print_int
-extern printf
+EXTERN error_exit
+EXTERN error_handler
+EXTERN put_string
+EXTERN print_int
+EXTERN printf
 
-extern ft_write
+EXTERN ft_write
 
-section .data
-		test_msg			db	"Test message from **** ft_write ****", 0xa, 0
-		test_msg_len		equ	$ - test_msg
-		end_msg				db	"END of __ ft_write __", 0xa, 0
-		end_msg_len			equ	$ - end_msg
-		test_one			db "TEST ONE", 0xa, 0
-		test_one_len		equ $ - test_one
-		test_two			db "TEST TWO", 0xa, 0
-		test_two_len		equ $ - test_two
-		test_file			db "./srcs/test.txt", 0
-		file_string			db "FILE TEST: Writing a string into a file.", 0xa
-		file_string_len		equ $ - file_string
+SECTION .data
+test_msg			db	"Test message from **** ft_write ****", 0xa, 0
+test_msg_len		equ	$ - test_msg
+end_msg				db	"END of __ ft_write __", 0xa, 0
+end_msg_len			equ	$ - end_msg
+test_one			db "TEST ONE", 0xa, 0
+test_one_len		equ $ - test_one
+test_two			db "TEST TWO", 0xa, 0
+test_two_len		equ $ - test_two
+test_file			db "./srcs/test.txt", 0
+file_string			db "FILE TEST: Writing a string into a file.", 0xa
+file_string_len		equ $ - file_string
 
-section .text
+SECTION .text
 
 ft_write_tests:
 		push rbp

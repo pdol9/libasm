@@ -33,8 +33,7 @@ name		db	"from printf", 0
 number		dq	0x424242
 newline		db	0xa
 
-; 	arr			dd	0
-; 		times 99 dd 58
+;arr dd 0 times 99 dd 58
 
 ; SECTION .bss
 ; 	arr_2		resd 100
@@ -78,7 +77,7 @@ _start:
 		; call ft_strlen_tests
 
 		;; ft_strcpy
-		call ft_strcpy_tests
+		;;call ft_strcpy_tests
 
 		;; ft_strcmp
 		; call ft_strcmp_tests

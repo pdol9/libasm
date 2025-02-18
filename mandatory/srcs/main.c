@@ -1,18 +1,53 @@
 #include "libasm.h"
-void	run_strcmp_tests(char *s1, char *s2, int count);
-void	run_strlen_tests(char *s1, int count);
 
 int main(void) {
 
 		// ft_write
 	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
 	char *str = "hello\n";
-	ft_write(1, str, strlen(str));
+	int check = ft_write(1, str, strlen(str));
+	if (check < 0)
+		printf(" * write * with bad input has failed: error value: %d\n", check);
+	else
+		printf("write: Number of written bytes: %d\n", check);
 	char *str1 = "'\n'";
-	ft_write(1, str1, strlen(str1));
 	char *str2 = "";
+	ft_write(1, str1, strlen(str1));
 	ft_write(1, str2, strlen(str2));
-	printf("\n # 2. test: Writing to a test file:\n");
+
+	printf("\n # 2. test: testing ERRNO \n");
+	// invalid file descriptor
+	check = write(-11, "Failing test with invalid fd", 1);
+	if (check < 0) {
+		printf("* write * with invalid file descriptor has failed: error value: %d\n", check);
+		perror("type of error: ");
+	}
+	else
+		printf("write: Number of written bytes: %d\n", check);
+	check = ft_write(-11, "Failing test with invalid fd", 1);
+	if (check < 0) {
+		printf("* ft_write * with invalid file descriptor has failed: error value: %d\n", check);
+		perror("type of error: ");
+	}
+	else
+		printf("write: Number of written bytes: %d\n", check);
+	// invalid address
+	check = write(1, (const char *)0x12345678, 2);
+	if (check < 0) {
+		printf("* write * with bad input has failed: error value: %d\n", check);
+		perror("type of error: ");
+	}
+	else
+		printf("write: Number of written bytes: %d\n", check);
+	check = ft_write(1, (const char *)0x12345678, 2);
+	if (check < 0){
+		printf("* ft_write * with bad input failed: error value: %d\n", check);
+		perror("type of error: ");
+	}
+	else
+		printf("write: Number of written bytes: %d\n", check);
+
+	printf("\n # 3. test: Writing to a test file:\n");
 	int fd = open("./test-file-ft_write.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open a test file.\n");
