@@ -38,7 +38,7 @@ $(NAME): $(OBJS)
 	ar rcs $@ $^
 
 ctest: $(NAME)
-	$(CC) $(LDFLAGS) ./srcs/main.c -I ./ $(NAME) -o $(CTESTER)
+	$(CC) $(LDFLAGS) ./srcs/main.c -I ./ -L. -lasm $(NAME) -o $(CTESTER)
 	./$(CTESTER)
 
 test: $(OBJ_DIR) $(TEST_OBJ) $(NAME)

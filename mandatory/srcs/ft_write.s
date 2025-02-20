@@ -8,19 +8,15 @@ EXTERN __errno_location
 SECTION .text
 
 ft_write:
-	push rbp
-	mov rbp, rsp
-	mov rax, 0x1					;; SYS_WRITE
+	mov rax, 0x1
 	syscall
 	cmp rax, 0
 	jge .end
 .err:
 	neg rax
-	mov rbx, rax
+	mov r9, rax
 	call __errno_location
-	mov [rax], rbx
+	mov [rax], r9
 	mov rax, -1
 .end:
-	mov rsp, rbp
-	pop rbp
 	ret
