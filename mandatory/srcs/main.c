@@ -5,13 +5,13 @@ int main(void) {
 		// ft_write
 	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
 	char *str = "hello\n";
+	char *str1 = "'\n'";
+	char *str2 = "";
 	int check = ft_write(1, str, strlen(str));
 	if (check < 0)
 		printf(" * write * with bad input has failed: error value: %d\n", check);
 	else
 		printf("write: Number of written bytes: %d\n", check);
-	char *str1 = "'\n'";
-	char *str2 = "";
 	ft_write(1, str1, strlen(str1));
 	ft_write(1, str2, strlen(str2));
 
@@ -21,30 +21,26 @@ int main(void) {
 	if (check < 0) {
 		printf("* write * with invalid file descriptor has failed: error value: %d\n", check);
 		perror("type of error: ");
-	}
-	else
+	} else
 		printf("write: Number of written bytes: %d\n", check);
 	check = ft_write(-11, "Failing test with invalid fd", 1);
 	if (check < 0) {
 		printf("* ft_write * with invalid file descriptor has failed: error value: %d\n", check);
 		perror("type of error: ");
-	}
-	else
+	} else
 		printf("write: Number of written bytes: %d\n", check);
 	// invalid address
 	check = write(1, (const char *)0x12345678, 2);
 	if (check < 0) {
 		printf("* write * with bad input has failed: error value: %d\n", check);
 		perror("type of error: ");
-	}
-	else
+	} else
 		printf("write: Number of written bytes: %d\n", check);
 	check = ft_write(1, (const char *)0x12345678, 2);
 	if (check < 0){
 		printf("* ft_write * with bad input failed: error value: %d\n", check);
 		perror("type of error: ");
-	}
-	else
+	} else
 		printf("write: Number of written bytes: %d\n", check);
 
 	printf("\n # 3. test: Writing to a test file:\n");
@@ -64,6 +60,7 @@ int main(void) {
 		// ft_read
 	fprintf(stdout, "\n-----> Start with ft_read <-----\n\n	# 1. test: Reading from the test file:\n\n");
 	char buf[4096];
+	int err_code = 0;
 	fd = open("./srcs/main.c", O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
@@ -71,6 +68,41 @@ int main(void) {
 	else {
 		while (read(fd, buf, 1) > 0) {
 			write(STDOUT, buf, 1);
+		}
+		close(fd);
+	}
+
+	printf("\n # 2. test: Invalid file descriptor & memory location\n");
+	fd = open("./srcs/main.c", O_RDONLY);
+	if (fd < 0) {
+		fprintf(stderr, "Failed to open the file\n");
+	} else {
+		// invalid fd
+		if ((err_code = read(-123, buf, 1) < 1)) {
+			printf("read: value of error: %d\n", err_code);
+			perror("type of error: ");
+		}
+		if ((err_code = ft_read(-123, buf, 1) < 1)) {
+			printf("ft_read: value of error: %d\n", err_code);
+			perror("type of error: ");
+		}
+		// invalid address
+		if ((err_code = read(fd, (char *)0x12345678, 1)) < 1) {
+			printf("read: value of error: %d\n", err_code);
+			perror("type of error: ");
+		}
+		if ((err_code = ft_read(fd, (char *)0x12345678, 1)) < 1) {
+			printf("ft_read: value of error: %d\n", err_code);
+			perror("type of error: ");
+		}
+		// invalid size
+		if ((err_code = read(fd, buf, -1)) < 1) {
+			printf("read: value of error: %d\n", err_code);
+			perror("type of error: ");
+		}
+		if ((err_code = ft_read(fd, buf, -1)) < 1) {
+			printf("ft_read: value of error: %d\n", err_code);
+			perror("type of error: ");
 		}
 		close(fd);
 	}
