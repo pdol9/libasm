@@ -3,7 +3,7 @@
 int main(void) {
 
 		// ft_write
-	fprintf(stdout, "\n-----> Start with ft_write <-----\n\n # 1. test: Writing to the STDOUT\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_write <-----"RESET"\n\n" GREEN " # 1. test: Writing to the STDOUT" RESET "\n");
 	char *str = "hello\n";
 	char *str1 = "'\n'";
 	char *str2 = "";
@@ -15,7 +15,7 @@ int main(void) {
 	ft_write(1, str1, strlen(str1));
 	ft_write(1, str2, strlen(str2));
 
-	printf("\n # 2. test: testing ERRNO \n");
+	printf("\n " GREEN "# 2. test: testing ERRNO " RESET "\n");
 	// invalid file descriptor
 	check = write(-11, "Failing test with invalid fd", 1);
 	if (check < 0) {
@@ -43,22 +43,21 @@ int main(void) {
 	} else
 		printf("write: Number of written bytes: %d\n", check);
 
-	printf("\n # 3. test: Writing to a test file:\n");
+	printf("\n " GREEN "# 3. test: Writing to a test file:" RESET "\n");
 	int fd = open("./test-file-ft_write.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open a test file.\n");
-	}
-	else {
+	} else {
 		char *test_input = "This is a test string.\n";
 		write(fd, test_input, strlen(test_input));
 		close(fd);
 	}
-	printf("end of --ft_write--\n");
+	printf("\nend of --ft_write--\n");
 
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_read
-	fprintf(stdout, "\n-----> Start with ft_read <-----\n\n	# 1. test: Reading from the test file:\n\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_read <-----" RESET "\n\n " GREEN "# 1. test: Reading from the test file:" RESET "\n\n");
 	char buf[4096];
 	int err_code = 0;
 	fd = open("./srcs/main.c", O_RDONLY);
@@ -72,7 +71,7 @@ int main(void) {
 		close(fd);
 	}
 
-	printf("\n # 2. test: Invalid file descriptor & memory location\n");
+	printf("\n " GREEN "# 2. test: Invalid file descriptor & memory location" RESET "\n");
 	fd = open("./srcs/main.c", O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
@@ -111,7 +110,7 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strlen
-	fprintf(stdout, "\n-----> Start with ft_strlen <-----\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_strlen <-----" RESET "\n");
 
 	char *test_str[] = {
 		"test test test", "9", ""
@@ -123,7 +122,7 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strcpy
-	fprintf(stdout, "\n-----> Start with ft_strcpy <-----\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_strcpy <-----" RESET "\n");
 	char src_arr[]="aloha";
 	char dst_arr[11] = {0};
 	char ft_src_arr[]="aloha";
@@ -134,16 +133,16 @@ int main(void) {
 	// 1. test
 	char *a = strcpy(dst_arr, src_arr);
 	char *b = ft_strcpy(ft_dst_arr, src_arr);
-	printf("\n # 1. test:\nInput: '%s'\n", src_arr);
+	printf("\n " GREEN "# 1. test: Input: '%s'" RESET "\n", src_arr);
 	printf("strcpy: %s vs. ft_strcpy: %s\n", a, b);
 
 	// 2. test
 	char *c = strcpy(dst_arr + 5, src_arr);
 	char *d = ft_strcpy(ft_dst_arr + 5, src_arr);
-	printf("\n # 2. test:\nConcatenate two strings.\nExpected output: 'alohaaloha'\nstrcpy: %s vs. ft_strcpy: %s\n", c - 5, d - 5);
+	printf("\n " GREEN "# 2. test: Concatenate two strings." RESET "\nExpected output: 'alohaaloha'\nstrcpy: %s vs. ft_strcpy: %s\n", c - 5, d - 5);
 
 	// 3. test
-	printf("\n # 3. test: Overwrite src array with 'TEST':\n");
+	printf("\n " GREEN "# 3. test: Overwrite src array with 'TEST':" RESET "\n");
 	char *tmp1 = strdup(src_arr);
 	char *tmp2 = strdup(ft_src_arr);
 	char *e = strcpy(src_arr, arr_test);
@@ -154,7 +153,7 @@ int main(void) {
 	free(tmp2);
 
 	// 4. test
-	printf("\n # 4. test: (try to) overwrite 'TEST' array with 0:\n");
+	printf("\n " GREEN "# 4. test: (try to) overwrite 'TEST' array with 0:" RESET "\n");
 	char *g = strcpy(arr_test, arr_zero);
 	char *h = ft_strcpy(arr_test, arr_zero);
 	printf("strcpy: '%s' -> '%s', i.e.: '%s'\nft_strcpy: '%s' -> '%s', i.e.: '%s'\n", \
@@ -163,7 +162,7 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strcmp
-	fprintf(stdout, "\n-----> Start with ft_strcmp tests <-----\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_strcmp tests <-----" RESET "\n");
 
 	char *test_strings[] = {
 		"", "abcdef", "abcdef", "abcdefyzABCD"
@@ -175,7 +174,7 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_strdup
-	fprintf(stdout, "\n-----> Start with ft_strdup <-----\nBehaviour of official function:\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_strdup <-----" RESET "\nBehaviour of official function:\n");
 	char *test1 = "AbcdefgH";
 	char *test2 = "";
 	char *dup, *ft_dup;
@@ -195,7 +194,7 @@ int main(void) {
 	// 1. test
 	dup = strdup(test1);
 	ft_dup = ft_strdup(test1);
-	printf("\n # 1. test:\nInput: %4s'%s'\n", " ", test1);
+	printf("\n " GREEN "# 1. test: Input: '%s'" RESET "\n", test1);
 	printf("strdup: %3s'%s'\n", " ", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
 	printf("Memory addr: %p -> %s\n", test1, "test1 string");
@@ -207,9 +206,11 @@ int main(void) {
 	// 2. test
 	char *dup_test = strdup(dup);
 	char *ft_dup_test = ft_strdup(ft_dup);
-	printf("\n # 2. test: Use dup() on already dupped string: '%s'\n", dup);
+	printf("\n " GREEN "# 2. test: Use dup() on already dupped string: '%s'" RESET "\n", dup);
 	printf("strdup: %3s'%s'\n", " ", dup_test);
 	printf("ft_strdup: '%s'\n", ft_dup_test);
+	printf("Memory addr: %p -> %s\n", dup_test, "dupped dup string");
+	printf("Memory addr: %p -> %s\n", ft_dup_test, "dupped ft_dup string");
 	free(dup);
 	free(ft_dup);
 	free(dup_test);
@@ -218,7 +219,7 @@ int main(void) {
 	// 3. test
 	dup = strdup(test2);
 	ft_dup = ft_strdup(test2);
-	printf("\n # 3.test: Input: '%s'\n", test2);
+	printf("\n " GREEN "# 3.test: Input: '%s'" RESET "\n", test2);
 	printf("strdup: %3s'%s'\n", " ", dup);
 	printf("ft_strdup: '%s'\n", ft_dup);
 	free(dup);
@@ -236,7 +237,7 @@ void	run_strlen_tests(char *s1, int count) {
 
 	int len = strlen(s1);
 	int ft_len = ft_strlen(s1);
-	printf("\n # %d. test:\nInput: '%s'\n", count + 1, s1);
+	printf("\n " GREEN "# %d. test: Input: '%s'" RESET "\n", count + 1, s1);
 	if (len == ft_len)
 		printf("strlen: %d vs. ft_strlen: %d --> OK\n", len, ft_len);
 	else
@@ -246,7 +247,7 @@ void	run_strlen_tests(char *s1, int count) {
 // ft_strcmp
 void	run_strcmp_tests(char *s1, char *s2, int counter) {
 
-	printf("\n # %d.test:\nComparison between '%s' and '%s'.\n", counter + 1, s1, s2);
+	printf("\n " GREEN "# %d.test: Comparison between '%s' and '%s'." RESET "\n", counter + 1, s1, s2);
 do_swap:
 	int diff = strcmp(s1, s2);
 	int ft_diff = ft_strcmp(s1, s2);

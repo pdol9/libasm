@@ -10,7 +10,6 @@ ft_strcmp:
 	push rbp
 	mov rbp, rsp
 	xor rax, rax
-
 .eq:
 	mov al, BYTE [rdi]
 	mov cl, BYTE [rdi]
