@@ -9,9 +9,9 @@ int main(void) {
 	char *str2 = "";
 	int check = ft_write(1, str, strlen(str));
 	if (check < 0)
-		printf(" * write * with bad input has failed: error value: %d\n", check);
+		printf(" * ft_write * with bad input has failed: error value: %d\n", check);
 	else
-		printf("write: Number of written bytes: %d\n", check);
+		printf("ft_write: Number of written bytes: %d\n", check);
 	ft_write(1, str1, strlen(str1));
 	ft_write(1, str2, strlen(str2));
 
@@ -28,7 +28,7 @@ int main(void) {
 		printf("* ft_write * with invalid file descriptor has failed: error value: %d\n", check);
 		perror("type of error: ");
 	} else
-		printf("write: Number of written bytes: %d\n", check);
+		printf("ft_write: Number of written bytes: %d\n", check);
 	// invalid address
 	check = write(1, (const char *)0x12345678, 2);
 	if (check < 0) {
@@ -41,7 +41,7 @@ int main(void) {
 		printf("* ft_write * with bad input failed: error value: %d\n", check);
 		perror("type of error: ");
 	} else
-		printf("write: Number of written bytes: %d\n", check);
+		printf("ft_write: Number of written bytes: %d\n", check);
 
 	printf("\n " GREEN "# 3. test: Writing to a test file:" RESET "\n");
 	int fd = open("./test-file-ft_write.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -57,10 +57,10 @@ int main(void) {
 //	--------  --------  --------  --------  --------  --------  //
 
 		// ft_read
-	fprintf(stdout, "\n" CYAN "-----> Start with ft_read <-----" RESET "\n\n " GREEN "# 1. test: Reading from the test file:" RESET "\n\n");
+	fprintf(stdout, "\n" CYAN "-----> Start with ft_read <-----" RESET "\n\n " GREEN "# 1. test: Reading from a file:" RESET "\n\n");
 	char buf[4096];
-	int err_code = 0;
-	fd = open("./srcs/main.c", O_RDONLY);
+	ssize_t err_code = 0;
+	fd = open("./srcs/ft_strcpy.s", O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
 	}
@@ -72,35 +72,35 @@ int main(void) {
 	}
 
 	printf("\n " GREEN "# 2. test: Invalid file descriptor & memory location" RESET "\n");
-	fd = open("./srcs/main.c", O_RDONLY);
+	fd = open("./srcs/ft_strcpy.s", O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
 	} else {
 		// invalid fd
 		if ((err_code = read(-123, buf, 1) < 1)) {
-			printf("read: value of error: %d\n", err_code);
+			printf("read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		if ((err_code = ft_read(-123, buf, 1) < 1)) {
-			printf("ft_read: value of error: %d\n", err_code);
+			printf("ft_read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		// invalid address
 		if ((err_code = read(fd, (char *)0x12345678, 1)) < 1) {
-			printf("read: value of error: %d\n", err_code);
+			printf("read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		if ((err_code = ft_read(fd, (char *)0x12345678, 1)) < 1) {
-			printf("ft_read: value of error: %d\n", err_code);
+			printf("ft_read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		// invalid size
-		if ((err_code = read(fd, buf, -1)) < 1) {
-			printf("read: value of error: %d\n", err_code);
+		if ((err_code = read(fd, buf, 0)) < 1) {
+			printf("read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		if ((err_code = ft_read(fd, buf, -1)) < 1) {
-			printf("ft_read: value of error: %d\n", err_code);
+			printf("ft_read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
 		close(fd);
@@ -134,12 +134,12 @@ int main(void) {
 	char *a = strcpy(dst_arr, src_arr);
 	char *b = ft_strcpy(ft_dst_arr, src_arr);
 	printf("\n " GREEN "# 1. test: Input: '%s'" RESET "\n", src_arr);
-	printf("strcpy: %s vs. ft_strcpy: %s\n", a, b);
+	printf("strcpy: %3s'%s' \nft_strcpy: '%s'\n", " ", a, b);
 
 	// 2. test
 	char *c = strcpy(dst_arr + 5, src_arr);
 	char *d = ft_strcpy(ft_dst_arr + 5, src_arr);
-	printf("\n " GREEN "# 2. test: Concatenate two strings." RESET "\nExpected output: 'alohaaloha'\nstrcpy: %s vs. ft_strcpy: %s\n", c - 5, d - 5);
+	printf("\n " GREEN "# 2. test: Concatenate two strings." RESET "\nExpected output: 'alohaaloha'\nstrcpy: %3s'%s' \nft_strcpy: '%s'\n", " ", c - 5, d - 5);
 
 	// 3. test
 	printf("\n " GREEN "# 3. test: Overwrite src array with 'TEST':" RESET "\n");
@@ -147,8 +147,7 @@ int main(void) {
 	char *tmp2 = strdup(ft_src_arr);
 	char *e = strcpy(src_arr, arr_test);
 	char *f = ft_strcpy(ft_src_arr, arr_test);
-	printf("strcpy: '%s' -> '%s'\nft_strcpy: '%s' -> '%s'\n", \
-		tmp1, e, tmp2, f);
+	printf("strcpy: %3s'%s' -> '%s'\nft_strcpy: '%s' -> '%s'\n", " ", tmp1, e, tmp2, f);
 	free(tmp1);
 	free(tmp2);
 
@@ -156,8 +155,8 @@ int main(void) {
 	printf("\n " GREEN "# 4. test: (try to) overwrite 'TEST' array with 0:" RESET "\n");
 	char *g = strcpy(arr_test, arr_zero);
 	char *h = ft_strcpy(arr_test, arr_zero);
-	printf("strcpy: '%s' -> '%s', i.e.: '%s'\nft_strcpy: '%s' -> '%s', i.e.: '%s'\n", \
-		dst_arr, g, g + 1, ft_dst_arr, h, h + 1);
+	printf("strcpy: %3s'%s' -> '%s', i.e.: '%s'\nft_strcpy: '%s' -> '%s', i.e.: '%s'\n", \
+		" ", dst_arr, g, g + 1, ft_dst_arr, h, h + 1);
 
 //	--------  --------  --------  --------  --------  --------  //
 
@@ -200,8 +199,8 @@ int main(void) {
 	printf("Memory addr: %p -> %s\n", test1, "test1 string");
 	printf("Memory addr: %p -> %s\n", dup, "dup string");
 	printf("Memory addr: %p -> %s\n", ft_dup, "ft_dup string");
-	printf("strlen of dup: %d\n", strlen(dup));
-	printf("strlen of ft_dup: %d\n", strlen(ft_dup));
+	printf("strlen of dup: %ld\n", strlen(dup));
+	printf("strlen of ft_dup: %ld\n", strlen(ft_dup));
 
 	// 2. test
 	char *dup_test = strdup(dup);
@@ -248,9 +247,11 @@ void	run_strlen_tests(char *s1, int count) {
 void	run_strcmp_tests(char *s1, char *s2, int counter) {
 
 	printf("\n " GREEN "# %d.test: Comparison between '%s' and '%s'." RESET "\n", counter + 1, s1, s2);
+	int diff;
+	int ft_diff;
 do_swap:
-	int diff = strcmp(s1, s2);
-	int ft_diff = ft_strcmp(s1, s2);
+	diff = strcmp(s1, s2);
+	ft_diff = ft_strcmp(s1, s2);
 	if (diff == ft_diff)
 		printf("strcmp: %d vs. ft_strcmp: %d --> OK\n", diff, ft_diff);
 	else

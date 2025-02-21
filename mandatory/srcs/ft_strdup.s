@@ -43,6 +43,6 @@ ft_strdup:
 	call __errno_location
 	mov [rax], r9
 	mov rax, -1
-.exit
+.exit:
 	pop rbx
 	ret

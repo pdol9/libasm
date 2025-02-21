@@ -1,13 +1,13 @@
-.PHONY: all clean fclean re test run
+.PHONY: all clean fclean re test ctest debug val
 
 # assembler & linker
 NASM		:= nasm
 NASMFLAGS	:= -f elf64 -F dwarf -g -w+all
 LD			:= ld
-LDFLAGS		:= -g
+DEBUG		:= -g
 
 # general variables
-TEST_FILE	:= ./srcs/test.txt
+TEST_FILE	:= test-file-ft_write.txt
 INC			:= inc/
 SRC_DIR		:= srcs/
 OBJ_DIR		:= build/
@@ -38,11 +38,11 @@ $(NAME): $(OBJS)
 	ar rcs $@ $^
 
 ctest: $(NAME)
-	$(CC) $(LDFLAGS) ./srcs/main.c -I ./ -L. -lasm $(NAME) -o $(CTESTER)
+	$(CC) $(DEBUG) ./srcs/main.c -I ./ -L. -lasm $(NAME) -o $(CTESTER) -Wpedantic -Werror -Wall -Wextra
 	./$(CTESTER)
 
 test: $(OBJ_DIR) $(TEST_OBJ) $(NAME)
-	$(LD) $(LDFLAGS) -I ./inc $(TEST_OBJ) $(NAME) -o $(TESTER) -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2
+	$(LD) $(DEBUG) -I ./inc $(TEST_OBJ) $(NAME) -o $(TESTER) -lc --dynamic-linker /lib64/ld-linux-x86-64.so.2
 	./$(TESTER)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s
@@ -51,29 +51,25 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.s
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-run:
-	./$(TESTER)
-
 clean:
-	rm -rf $(OBJ_DIR)
-	rm -f $(TEST_FILE)
+	rm -rf $(OBJ_DIR) ||:
+	rm -f $(NAME)
 
 fclean: clean
-	rm -f $(NAME) $(TESTER)
-
-clear_test:
-	rm -f $(TESTER)
-	rm -f $(TEST_FILE)
+	rm -f $(TESTER) ||:
+	rm -f $(CTESTER) ||:
+	rm -f $(TEST_FILE) ||:
 
 val: ctest
 	@printf "\n$$ "
 	valgrind --leak-check=full --show-leak-kinds=all ./$(CTESTER)
 
 debug:
-	strace ./$(TESTER)
+	strace ./$(CTESTER)
+#	strace ./$(TESTER)
 
-re: fclean all
-	@echo "== Project rebuilt. =="
+re: clean all
+	@echo "==== Project rebuilt. ===="
 
 bonus:
 	@echo "WIP"
