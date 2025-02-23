@@ -1,13 +1,3 @@
-;; System Call Values
-SYS_OPEN		equ 0x02
-SYS_CLOSE		equ 0x03
-SYS_EXIT		equ 0x3C
-
-;; File Descriptors
-STDIN			equ 0
-STDOUT			equ 1
-STDERR			equ 2
-
 ;; Function prototypes
 %define error_handler error_handler
 %define error_exit error_exit

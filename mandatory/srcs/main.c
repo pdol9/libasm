@@ -99,7 +99,7 @@ int main(void) {
 			printf("read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}
-		if ((err_code = ft_read(fd, buf, -1)) < 1) {
+		if ((err_code = ft_read(fd, buf, 0)) < 1) {
 			printf("ft_read: value of error: %ld\n", err_code);
 			perror("type of error: ");
 		}

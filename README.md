@@ -2,13 +2,14 @@
 
 ## Description
 
-Following C functions are being rewritten using x86-64 assembly with NASM
-into an independent static library (libasm.a), together with tests. Mandatory
-directory contains basic (string) functions, whereas bonus has linked list type
-of functions.
+Rewriting C functions listed below using x86-64 assembly with NASM into an
+independent static library (libasm.a), together with tests. Mandatory
+directory contains basic (string) functions, whereas bonus has linked list
+type of functions.
 
-Requirement: check for errors during syscalls and properly set them when needed.
-- allowed to call the extern ___error or errno_location.
+With the possibility to call the ```___errno_location``` it is doable to check
+for errors after system calls when using (glibc) C wrapper functions; as such 
+```perror()``` will return / print an adequate error.
 
 ### Functions
 
@@ -43,7 +44,4 @@ char *strdup(const char *s);<br>
 ```cd mandatory/ && make```
 
 - to compile library with tester, run:
-```cd mandatory/ && make test```
-
-- to run tests afterwards:
-```make run```
+```cd mandatory/ && make ctest```
