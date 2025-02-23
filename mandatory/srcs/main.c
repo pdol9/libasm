@@ -113,7 +113,7 @@ int main(void) {
 	fprintf(stdout, "\n" CYAN "-----> Start with ft_strlen <-----" RESET "\n");
 
 	char *test_str[] = {
-		"test test test", "9", ""
+		"Test test test test testtesttesttesttesttesttesttesttesttesttest testestestestest.", "9", ""
 	};
 	for (int i = 0; i < 3; ++i) {
 		run_strlen_tests(test_str[i], i);
@@ -164,9 +164,9 @@ int main(void) {
 	fprintf(stdout, "\n" CYAN "-----> Start with ft_strcmp tests <-----" RESET "\n");
 
 	char *test_strings[] = {
-		"", "abcdef", "abcdef", "abcdefyzABCD"
+		"", "", "abcdef", "abcdef", "abcdefyzABCD"
 	};
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 4; ++i) {
 		run_strcmp_tests(test_strings[i], test_strings[i + 1], i);
 	}
 
@@ -231,7 +231,7 @@ int main(void) {
 
 /// auxiliary functions
 
-// ft_strlen
+// ft_strlen test function
 void	run_strlen_tests(char *s1, int count) {
 
 	int len = strlen(s1);
@@ -243,7 +243,7 @@ void	run_strlen_tests(char *s1, int count) {
 		printf("  *** KO ***  : strlen: %d vs. ft_strlen: %d\n\n", len, ft_len);
 }
 
-// ft_strcmp
+// ft_strcmp test function
 void	run_strcmp_tests(char *s1, char *s2, int counter) {
 
 	printf("\n " GREEN "# %d.test: Comparison between '%s' and '%s'." RESET "\n", counter + 1, s1, s2);
@@ -256,9 +256,9 @@ do_swap:
 		printf("strcmp: %d vs. ft_strcmp: %d --> OK\n", diff, ft_diff);
 	else
 		printf("  *** KO ***  : strcmp: %d vs. ft_strcmp: %d\n\n", diff, ft_diff);
-	
-	if (counter < 3) {
-		counter = 42;				// break out of goto
+
+	if (counter | 0) {
+		counter = 0;				// break out of goto
 		char *tmp = s1;
 		s1 = s2;
 		s2 = tmp;
