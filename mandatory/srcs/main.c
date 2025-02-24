@@ -262,7 +262,7 @@ do_swap:
 		char *tmp = s1;
 		s1 = s2;
 		s2 = tmp;
-		printf("  ... swaping input strings for comparison: '%s' and '%s'.\n", s1, s2);
+		printf("  ... swapping input strings for comparison: '%s' and '%s'.\n", s1, s2);
 		goto do_swap;
 	}
 }
