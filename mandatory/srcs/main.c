@@ -49,7 +49,7 @@ int main(void) {
 		fprintf(stderr, "Failed to open a test file.\n");
 	} else {
 		char *test_input = "This is a test string.\n";
-		write(fd, test_input, strlen(test_input));
+		ft_write(fd, test_input, strlen(test_input));
 		close(fd);
 	}
 	printf("\nend of --ft_write--\n");
