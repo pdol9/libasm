@@ -2,14 +2,16 @@
 
 ## Description
 
-Rewriting C functions, listed below, using x86-64 assembly with NASM into a static 
-library (```libasm.a```). Next to the functions are provided tests, written in C.
-Mandatory directory contains basic (string) functions (*completed*), whereas bonus
-has linked list type of functions (*WIP*).
+Rewriting the C functions listed below in x86-64 assembly using NASM to create a static 
+library (```libasm.a```). Tests for these functions are provided in C (```main.c```),
+as well as in assembly (```main.s```).
 
-With the possibility of rewritten functions to call the ```___errno_location```,
-it is doable to check for type of error in those functions which use system call;
-as such ```perror()``` will return / print an adequate error.
+The mandatory directory contains basic string functions (*completed*), while the bonus
+section includes linked list functions (*WIP*).
+
+Since some rewritten functions use system calls and may call ```___errno_location```,
+it is possible to check the type of error (e.g., ```Bad file descriptor```, ```Bad address```).
+As a result, perror() will return or print an appropriate error message.
 
 ### Functions
 
@@ -42,10 +44,10 @@ char *strdup(const char *s);<br>
 
 - to compile library, run:
 ```bash
-cd mandatory/ && make
+cd ./mandatory/ && make
 ```
 
 - to compile library with tester, run:
-```
-cd mandatory/ && make ctest
+```bash
+cd ./mandatory/ && make ctest
 ```
