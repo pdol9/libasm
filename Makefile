@@ -83,6 +83,6 @@ BONUS			:= bonus
 INC_BONUS		:= $(BONUS)/inc
 BONUS_SRC_DIR	:= $(BONUS)/srcs
 
-bonus: $(NAME)
-	cc $(BONUS_SRC_DIR)/main_bonus.c $(BONUS_SRC_DIR)/ft_list_size.c -I $(INC_BONUS) -o $(BONUS_SRC_DIR)/tester
+bonus: all
+	cc $(BONUS_SRC_DIR)/main_bonus.c $(BONUS_SRC_DIR)/ft_list_size.c $(BONUS_SRC_DIR)/ft_list_push_front.c -I $(INC_BONUS) -o $(BONUS_SRC_DIR)/tester
 	./$(BONUS_SRC_DIR)/tester

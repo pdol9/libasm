@@ -1,4 +1,7 @@
-#include "libasm.h"
+# include "libasm.h"
+
+# define TEST_FILE "./mandatory/test-file-ft_write.txt"
+# define STRCPY_FILE "./mandatory/srcs/ft_strcpy.s"
 
 int main(void) {
 
@@ -44,7 +47,7 @@ int main(void) {
 		printf("ft_write: Number of written bytes: %d\n", check);
 
 	printf("\n " GREEN "# 3. test: Writing to a test file:" RESET "\n");
-	int fd = open("./test-file-ft_write.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+	int fd = open(TEST_FILE, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open a test file.\n");
 	} else {
@@ -60,7 +63,7 @@ int main(void) {
 	fprintf(stdout, "\n" CYAN "-----> Start with ft_read <-----" RESET "\n\n " GREEN "# 1. test: Reading from a file:" RESET "\n\n");
 	char buf[4096];
 	ssize_t err_code = 0;
-	fd = open("./srcs/ft_strcpy.s", O_RDONLY);
+	fd = open(STRCPY_FILE, O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
 	}
@@ -72,7 +75,7 @@ int main(void) {
 	}
 
 	printf("\n " GREEN "# 2. test: Invalid file descriptor & memory location" RESET "\n");
-	fd = open("./srcs/ft_strcpy.s", O_RDONLY);
+	fd = open(STRCPY_FILE, O_RDONLY);
 	if (fd < 0) {
 		fprintf(stderr, "Failed to open the file\n");
 	} else {

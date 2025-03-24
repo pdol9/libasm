@@ -1,7 +1,8 @@
 #ifndef LIBASM_BONUS_H
-#define LIBASM_BONUS_H
+# define LIBASM_BONUS_H
 
-#include "stdio.h"
+# include <stdlib.h>
+# include "stdio.h"
 
 typedef struct		s_list
 {
@@ -19,4 +20,4 @@ void	ft_list_remove_if(t_list **begin_list,
 							int (*cmp)(),
 							void (*free_fct)(void *));
 
-#endif
+# endif
